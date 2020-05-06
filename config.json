@@ -1,0 +1,5 @@
+{
+    "env" : "development",
+    "debug" : true,
+    "port" : "8080"
+}
