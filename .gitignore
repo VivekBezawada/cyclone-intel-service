@@ -1,2 +1,4 @@
 __pycache__
+cyclone_intel/__pycache__
 venv/
+pgdata
