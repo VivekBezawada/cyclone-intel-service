@@ -2,5 +2,5 @@
     "debug" : true,
     "host" : "0.0.0.0",
     "port" : "8080",
-    "db_url" : "postgresql://user:password@db:5432/cyclone-intel"
+    "db_url" : "postgresql://postgres:postgres@db:5432/cyclone-intel"
 }
