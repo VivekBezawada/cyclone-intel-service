@@ -8,12 +8,12 @@ config = json.load(open('./config.json', 'r'))
 
 app = Flask(__name__)
 
-# This tells the user / anyone who is calling whether the service
-# is up and healthy
+# This tells the user / anyone who is calling
+# whether the service is up and healthy
 @app.route("/sanity")
 def fetch_service_status():
     return {"status" : "working"}
 
 if __name__ == "__main__":
     # Host is required to expose the service outside the docker container
-    app.run(debug=config['debug'], host="0.0.0.0", port=config['port'])
+    app.run(debug=config['debug'], host=config['host'], port=config['port'])

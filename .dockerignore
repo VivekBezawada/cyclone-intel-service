@@ -1,2 +1,4 @@
 .git
 pgdata/
+__pycache__/
+*.pyc
