@@ -1,5 +1,8 @@
 from datetime import datetime
-import os, sys, json, copy
+import os
+import sys
+import json
+import copy
 from pprint import pprint
 from utils.db_utils import DB
 from utils.transformer import tranform_data_to_tuples_for_insertion, transform_table_to_json
