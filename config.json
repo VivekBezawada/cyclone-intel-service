@@ -1,5 +1,6 @@
 {
     "env" : "development",
     "debug" : true,
-    "port" : "8080"
+    "port" : "8080",
+    "db_url" : "postgresql://user:password@db:5432/cyclone-intel"
 }

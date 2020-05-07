@@ -12,7 +12,8 @@ app = Flask(__name__)
 # is up and healthy
 @app.route("/sanity")
 def fetch_service_status():
-    return {"status" : "active"}
+    return {"status" : "working"}
 
 if __name__ == "__main__":
-    app.run(debug=config['debug'], port=config['port'])
+    # Host is required to expose the service outside the docker container
+    app.run(debug=config['debug'], host="0.0.0.0", port=config['port'])
