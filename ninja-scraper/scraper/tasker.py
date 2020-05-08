@@ -4,15 +4,8 @@ import sys
 import json
 import copy
 from pprint import pprint
-from utils.db_utils import DB
-from utils.transformer import tranform_data_to_tuples_for_insertion, transform_table_to_json
-from utils.html_utils import fetch_cyclones_info_page, fetch_cyclone_details_page
-import psycopg2 as pyc
-
-db_config = json.load(open(os.path.abspath("config.json"), "r"))
-
-db = DB(pyc.connect(host=db_config["db_host"], port=db_config["db_port"],
-                    user=db_config["user"], password=db_config["password"], database=db_config["database"]))
+from scraper.utils.transformer import tranform_data_to_tuples_for_insertion, transform_table_to_json
+from scraper.utils.html_utils import fetch_cyclones_info_page, fetch_cyclone_details_page
 
 NO_CYCLONES = "No Currently Active Cyclones"
 NO_DATA = "No Data Available"
@@ -67,15 +60,19 @@ def fetch_details_for_active_cyclones(data):
     return data
 
 
-try:
-    print("Scheduler triggerred at " + str(datetime.now()))
-    cyclone_data = fetch_active_cyclones()
-    if (cyclone_data):
-        cyclone_data = fetch_details_for_active_cyclones(cyclone_data)
-        tuples = tranform_data_to_tuples_for_insertion(cyclone_data)
-        db.insert_data_into_tables(tuples)
-    else:
-        print("There are no active cyclones at this moment")
-    print("Scheduler is completed at " + str(datetime.now()))
-except Exception as e:
-    print("Exception occured while processing " + str(e))
+def run_scheduler():
+    return True
+    try:
+        print("Scheduler triggerred at " + str(datetime.now()))
+        cyclone_data = fetch_active_cyclones()
+        if (cyclone_data):
+            cyclone_data = fetch_details_for_active_cyclones(cyclone_data)
+            tuples = tranform_data_to_tuples_for_insertion(cyclone_data)
+            return tuples
+        else:
+            print("There are no active cyclones at this moment")
+        print("Scheduler is completed at " + str(datetime.now()))
+        return None
+    except Exception as e:
+        print("Exception occured while processing " + str(e))
+        return None

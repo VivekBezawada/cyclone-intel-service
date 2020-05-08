@@ -1,4 +1,4 @@
-from utils.generic_utils import fetch_timestamp_from_date
+from scraper.utils.generic_utils import fetch_timestamp_from_date
 
 
 def tranform_data_to_tuples_for_insertion(data):

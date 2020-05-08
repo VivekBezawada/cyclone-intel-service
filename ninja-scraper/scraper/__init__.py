@@ -1,5 +1,5 @@
-from app import app
-
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 import json
 import os
 # This config can come up from an external source
@@ -7,6 +7,9 @@ import os
 # for simplicity, Leaving the config with the values
 config = json.load(open(os.path.abspath("config.json"), "r"))
 
-if __name__ == "__main__":
-    # Host is required to expose the service outside the docker container
-    app.run(debug=config['debug'], host=config['host'], port=config['port'])
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = config["db_url"]
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
+
+from scraper import routes

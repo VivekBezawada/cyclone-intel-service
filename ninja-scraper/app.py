@@ -1,4 +1,4 @@
-from app import app
+from scraper import app
 
 import json
 import os
