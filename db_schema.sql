@@ -1,5 +1,5 @@
-CREATE DATABASE "cyclone-intel";
-\c "cyclone-intel"
+CREATE DATABASE "cyclone_intel";
+\c "cyclone_intel"
 CREATE TABLE cyclone_info(
     cyclone_id TEXT PRIMARY KEY NOT NULL,
     cyclone_name TEXT NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE cyclone_info(
 );
 \d
 CREATE TABLE track_data(
-    cyclone_id TEXT REFERENCES cyclone_info(cyclone_id),
+    cyclone_id TEXT REFERENCES cyclone_info(cyclone_id) NOT NULL,
     synoptic_time BIGINT NOT NULL,
     latitude FLOAT,
     longitude FLOAT,
@@ -17,9 +17,9 @@ CREATE TABLE track_data(
 );
 \d
 CREATE TABLE forecast_data(
-    cyclone_id TEXT REFERENCES cyclone_info(cyclone_id),
+    cyclone_id TEXT REFERENCES cyclone_info(cyclone_id) NOT NULL,
     forecast_time BIGINT NOT NULL,
-    predicted_time BIGINT NOT NULL
+    predicted_time BIGINT NOT NULL,
     latitude FLOAT,
     longitude FLOAT,
     intensity INT,

@@ -5,7 +5,7 @@ def tranform_data_to_tuples_for_insertion(data):
     result = {"cyclone_info": [], "track_data": [], "forecast_data": []}
     for document in data:
         result["cyclone_info"].append(
-            (document["cyclone_id"], document["cyclone_name"], document["region"]))
+            {"cyclone_id": document["cyclone_id"], "cyclone_name": document["cyclone_name"], "region": document["region"]})
         for entry in document["track_data"]:
             result["track_data"].append(entry)
         for entry in document["forecast_data"]:
@@ -26,7 +26,8 @@ def transform_table_to_json(cyclone_id, table, last_forecast_time=None):
             forecast_document["forecast_time"] = fetch_timestamp_from_date(
                 last_forecast_time)
         else:
-            forecast_document["synoptic_time"] = fetch_timestamp_from_date(info[0].text)
+            forecast_document["synoptic_time"] = fetch_timestamp_from_date(
+                info[0].text)
         forecast_document["latitude"] = float(info[1].text)
         forecast_document["longitude"] = float(info[2].text)
         forecast_document["intensity"] = float(info[3].text)

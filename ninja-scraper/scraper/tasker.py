@@ -23,7 +23,7 @@ def fetch_active_cyclones():
         document["forecast_data"] = []
         if html_content.find("ul").find("li").text == NO_CYCLONES:
             continue
-        for html_cyclone in html_content.find("ul").findAll("li"):
+        for html_cyclone in html_content.find("ul").find_all("li"):
             cyclone_name = str(html_cyclone.find("a").text).strip()
             document["cyclone_id"] = cyclone_name.split("-")[0].strip()
             document["cyclone_name"] = cyclone_name
@@ -68,7 +68,8 @@ def run_scheduler():
         if (cyclone_data):
             print("Retrieved active cyclones. Fetching track data and forecast data")
             cyclone_data = fetch_details_for_active_cyclones(cyclone_data)
-            print("Retrieved track data and forecast data. Transforming and saving to Database")
+            print(
+                "Retrieved track data and forecast data. Transforming and saving to Database")
             return tranform_data_to_tuples_for_insertion(cyclone_data)
         else:
             print("There are no active cyclones at this moment")
@@ -76,4 +77,4 @@ def run_scheduler():
         return None
     except Exception as e:
         print("Exception occured while processing " + str(e))
-        return None
+        return e

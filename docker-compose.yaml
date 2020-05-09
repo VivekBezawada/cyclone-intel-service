@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: cyclone-intel
+      POSTGRES_DB: cyclone_intel
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:

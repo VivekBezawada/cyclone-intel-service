@@ -1,5 +1,6 @@
 from scraper import db
 from datetime import datetime
+import time
 
 
 class CycloneInfo(db.Model):
@@ -18,7 +19,7 @@ class CycloneInfo(db.Model):
 
 class TrackData(db.Model):
     cyclone_id = db.Column(db.String(20), db.ForeignKey(
-        'cycloneinfo.cyclone_id'), primary_key=True)
+        CycloneInfo.cyclone_id), primary_key=True, nullable=False)
     synoptic_time = db.Column(db.BigInteger, nullable=False,  primary_key=True)
     latitude = db.Column(db.Float, default=0, nullable=False)
     longitude = db.Column(db.Float, default=0, nullable=False)
@@ -34,9 +35,9 @@ class TrackData(db.Model):
 
 class ForecastData(db.Model):
     cyclone_id = db.Column(db.String(20), db.ForeignKey(
-        'cycloneinfo.cyclone_id'), primary_key=True)
+        CycloneInfo.cyclone_id), primary_key=True, nullable=False)
     forecast_time = db.Column(db.BigInteger, nullable=False, primary_key=True)
-    #predicted_time= db.Column(db.BigInteger, default=0, nullable=False)
+    predicted_time = db.Column(db.BigInteger, default=0, nullable=False)
     latitude = db.Column(db.Float, default=0, nullable=False)
     longitude = db.Column(db.Float, default=0, nullable=False)
     intensity = db.Column(db.Integer, default=0, nullable=False)
@@ -47,3 +48,12 @@ class ForecastData(db.Model):
 
     def toJSON(self):
         return {attr.name: getattr(self, attr.name) for attr in self.__table__.columns}
+
+
+for i in range(1, 6):
+    try:
+        time.sleep(10)
+        db.create_all()
+        break
+    except:
+        print("Db Connection is failing. Retrying in 10 seconds " + str(i) + "/5")
