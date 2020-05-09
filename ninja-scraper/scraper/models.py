@@ -7,7 +7,7 @@ class CycloneInfo(db.Model):
                            primary_key=True, nullable=False)
     cyclone_name = db.Column(db.String(40), nullable=False)
     region = db.Column(db.String(30), nullable=False)
-    cyclone_status = db.Column(db.Boolean, default=True)
+    cyclone_status = db.Column(db.Boolean, default=True, nullable=False)
 
     def __repr__(self):
         return '<CycloneInfo %r>' % self.cyclone_id

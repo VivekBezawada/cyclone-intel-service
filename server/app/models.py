@@ -36,7 +36,7 @@ class ForecastData(db.Model):
     cyclone_id = db.Column(db.String(20), db.ForeignKey(
         'cycloneinfo.cyclone_id'), primary_key=True)
     forecast_time = db.Column(db.BigInteger, nullable=False, primary_key=True)
-    #predicted_time= db.Column(db.BigInteger, default=0, nullable=False)
+    predicted_time= db.Column(db.BigInteger, default=0, nullable=False)
     latitude = db.Column(db.Float, default=0, nullable=False)
     longitude = db.Column(db.Float, default=0, nullable=False)
     intensity = db.Column(db.Integer, default=0, nullable=False)

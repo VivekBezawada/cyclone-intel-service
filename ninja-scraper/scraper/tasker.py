@@ -3,8 +3,7 @@ import os
 import sys
 import json
 import copy
-from pprint import pprint
-from scraper.utils.transformer import tranform_data_to_tuples_for_insertion, transform_table_to_json
+from scraper.utils.transformer import tranform_data_to_tuples_for_insertion, transform_table_to_json, validate_forecast_data
 from scraper.utils.html_utils import fetch_cyclones_info_page, fetch_cyclone_details_page
 
 NO_CYCLONES = "No Currently Active Cyclones"
@@ -31,7 +30,6 @@ def fetch_active_cyclones():
             # Identified a bug where a li has 2 elements, it's always taking the latest one
             # Made a deep copy to fix this bug
             cyclone_data.append(copy.deepcopy(document))
-    pprint(cyclone_data)
     return cyclone_data
 
 
@@ -43,32 +41,35 @@ def fetch_active_cyclones():
 def fetch_details_for_active_cyclones(data):
     for document in data:
         h3_elements = fetch_cyclone_details_page(document["cyclone_id"])
-        next_elemennt_for_forecast = h3_elements[0].find_next_sibling()
-        next_elemennt_for_track = h3_elements[1].find_next_sibling()
-        if str(next_elemennt_for_forecast.text) != NO_DATA:
+        next_element_for_forecast = h3_elements[0].find_next_sibling()
+        next_element_for_track = h3_elements[1].find_next_sibling()
+        if str(next_element_for_forecast.text) != NO_DATA:
             # In Forecase, next element is forecast time
             # and next element after that is the table
             # The below substring is what we actually need
-            document["forecast_time"] = next_elemennt_for_forecast.text[25:]
-            table = next_elemennt_for_forecast.find_next_sibling()
-            document["forecast_data"] = transform_table_to_json(
-                table, document["forecast_time"])
-
-        if str(next_elemennt_for_track.text) != NO_DATA:
+            document["forecast_time"] = next_element_for_forecast.text[25:]
+            table = next_element_for_forecast.find_next_sibling()
+            document["forecast_data"] = transform_table_to_json(document["cyclone_id"],
+                                                                table, document["forecast_time"])
+            # Validate for empty values. Will not be of help
+            # if forecast data has all 0 values
+            document["forecast_data"] = validate_forecast_data(
+                document["forecast_data"])
+        if str(next_element_for_track.text) != NO_DATA:
             document["track_data"] = transform_table_to_json(
-                next_elemennt_for_track)
+                document["cyclone_id"], next_element_for_track)
     return data
 
 
 def run_scheduler():
-    return True
     try:
         print("Scheduler triggerred at " + str(datetime.now()))
         cyclone_data = fetch_active_cyclones()
         if (cyclone_data):
+            print("Retrieved active cyclones. Fetching track data and forecast data")
             cyclone_data = fetch_details_for_active_cyclones(cyclone_data)
-            tuples = tranform_data_to_tuples_for_insertion(cyclone_data)
-            return tuples
+            print("Retrieved track data and forecast data. Transforming and saving to Database")
+            return tranform_data_to_tuples_for_insertion(cyclone_data)
         else:
             print("There are no active cyclones at this moment")
         print("Scheduler is completed at " + str(datetime.now()))

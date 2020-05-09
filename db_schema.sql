@@ -19,6 +19,7 @@ CREATE TABLE track_data(
 CREATE TABLE forecast_data(
     cyclone_id TEXT REFERENCES cyclone_info(cyclone_id),
     forecast_time BIGINT NOT NULL,
+    predicted_time BIGINT NOT NULL
     latitude FLOAT,
     longitude FLOAT,
     intensity INT,

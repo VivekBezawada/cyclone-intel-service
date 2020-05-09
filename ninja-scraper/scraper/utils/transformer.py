@@ -7,15 +7,13 @@ def tranform_data_to_tuples_for_insertion(data):
         result["cyclone_info"].append(
             (document["cyclone_id"], document["cyclone_name"], document["region"]))
         for entry in document["track_data"]:
-            result["track_data"].append(
-                (document["cyclone_id"], entry["time"], entry["latitude"], entry["longitude"], entry["intensity"]))
+            result["track_data"].append(entry)
         for entry in document["forecast_data"]:
-            result["forecast_data"].append(
-                (document["cyclone_id"], entry["time"], entry["latitude"], entry["longitude"], entry["intensity"]))
+            result["forecast_data"].append(entry)
     return result
 
 
-def transform_table_to_json(table, last_forecast_time=None):
+def transform_table_to_json(cyclone_id, table, last_forecast_time=None):
     forecast_data = []
     for index, info in enumerate(table.findAll("tr")):
         if index == 0:
@@ -23,12 +21,23 @@ def transform_table_to_json(table, last_forecast_time=None):
         forecast_document = {}
         info = info.findAll("td")
         if last_forecast_time:
-            forecast_document["time"] = fetch_timestamp_from_date(
+            forecast_document["predicted_time"] = fetch_timestamp_from_date(
                 last_forecast_time, int(info[0].text))
+            forecast_document["forecast_time"] = fetch_timestamp_from_date(
+                last_forecast_time)
         else:
-            forecast_document["time"] = fetch_timestamp_from_date(info[0].text)
-        forecast_document["latitude"] = info[1].text
-        forecast_document["longitude"] = info[2].text
-        forecast_document["intensity"] = info[3].text
+            forecast_document["synoptic_time"] = fetch_timestamp_from_date(info[0].text)
+        forecast_document["latitude"] = float(info[1].text)
+        forecast_document["longitude"] = float(info[2].text)
+        forecast_document["intensity"] = float(info[3].text)
+        forecast_document["cyclone_id"] = cyclone_id
         forecast_data.append(forecast_document)
     return forecast_data
+
+
+def validate_forecast_data(data):
+    exclude_zero_values = []
+    for document in data:
+        if document["latitude"] != 0 and document["longitude"] != 0 and document["intensity"] != 0:
+            exclude_zero_values.append(document)
+    return exclude_zero_values
