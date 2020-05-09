@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "5fb5917d-51bb-475d-b988-6743bfe87917",
+		"name": "cyclone-i-intel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "server",
+			"item": [
+				{
+					"name": "Sanity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/sanity",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sanity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Cyclones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/cyclones",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cyclones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Track Data by Cyclone Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/cyclones/WP952020/track_data",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cyclones",
+								"WP952020",
+								"track_data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Forecast Data by Clyclone ID and Forecast Time",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/cyclones/WP952020/forecast_data/1589004000",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cyclones",
+								"WP952020",
+								"forecast_data",
+								"1589004000"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "scheduler",
+			"item": [
+				{
+					"name": "Sanity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/sanity",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"sanity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Schedule all the info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/schedule",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Schedule info post timestamp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/schedule/1589045790",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"schedule",
+								"1589045790"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
