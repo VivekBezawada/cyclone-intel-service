@@ -24,7 +24,6 @@ class TrackData(db.Model):
     latitude = db.Column(db.Float, default=0, nullable=False)
     longitude = db.Column(db.Float, default=0, nullable=False)
     intensity = db.Column(db.Integer, default=0, nullable=False)
-    #time_stamp = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
         return '<TrackData %r>' % self.cyclone_id
@@ -35,13 +34,12 @@ class TrackData(db.Model):
 
 class ForecastData(db.Model):
     cyclone_id = db.Column(db.String(20), db.ForeignKey(
-        CycloneInfo.cyclone_id), primary_key=True, nullable=False)
-    forecast_time = db.Column(db.BigInteger, nullable=False, primary_key=True)
-    predicted_time = db.Column(db.BigInteger, default=0, nullable=False)
+        CycloneInfo.cyclone_id), nullable=False, primary_key=True)
+    forecast_time = db.Column(db.BigInteger, nullable=False,  primary_key=True)
+    predicted_time = db.Column(db.BigInteger, nullable=False, primary_key=True)
     latitude = db.Column(db.Float, default=0, nullable=False)
     longitude = db.Column(db.Float, default=0, nullable=False)
     intensity = db.Column(db.Integer, default=0, nullable=False)
-    #time_stamp = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
         return '<ForecastData %r>' % self.cyclone_id

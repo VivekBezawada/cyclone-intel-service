@@ -13,8 +13,8 @@ def get_cyclone_detail_url(cyclone_id):
 
 def fetch_html_content(url, attrs1, element, attrs2=None):
     page = request.urlopen(url)
-    soup = BeautifulSoup(page, features="html.parser")
-    return soup.body.find("div", attrs=attrs1).find_all(element, attrs=attrs2)
+    soup = BeautifulSoup(page, features="lxml")
+    return soup.body.find("div", attrs=attrs1).findAll(element, attrs=attrs2)
 
 
 def fetch_cyclones_info_page():

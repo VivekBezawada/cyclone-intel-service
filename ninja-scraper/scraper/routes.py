@@ -26,11 +26,12 @@ def run_background_schedule(timestamp=None):
                     lambda _temp: _temp["synoptic_time"] > float(timestamp), data["track_data"]))
                 data["forecast_data"] = list(filter(
                     lambda _temp: _temp["forecast_time"] > float(timestamp), data["forecast_data"]))
+            pprint(data["forecast_data"])
             for model_name, key_name in zip([CycloneInfo, TrackData, ForecastData], data.keys()):
                 if data[key_name]:
                     insrt_stmnt = insert(model_name).values(data[key_name])
                     db.engine.execute(insrt_stmnt.on_conflict_do_nothing())
     except Exception as e:
         # Can send an email / alert to notify the admin of this failure.
-        return {"status": "failure", "version": "1.0", "data": "Job failed with exception" + str(e)}
+        return {"status": "failure", "version": "1.0", "data": "Job failed with exception " + str(e)}
     return {"status": "success", "version": "1.0", "data": "Job completed!"}

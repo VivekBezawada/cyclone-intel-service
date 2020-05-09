@@ -23,6 +23,6 @@ CREATE TABLE forecast_data(
     latitude FLOAT,
     longitude FLOAT,
     intensity INT,
-    UNIQUE(cyclone_id, forecast_time)
+    UNIQUE(cyclone_id, forecast_time, predicted_time)
 );
 \d
