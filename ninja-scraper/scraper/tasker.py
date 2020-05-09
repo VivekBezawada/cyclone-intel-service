@@ -53,8 +53,8 @@ def fetch_details_for_active_cyclones(data):
                                                                 table, document["forecast_time"])
             # Validate for empty values. Will not be of help
             # if forecast data has all 0 values
-            # document["forecast_data"] = validate_forecast_data(
-            #     document["forecast_data"])
+            document["forecast_data"] = validate_forecast_data(
+                document["forecast_data"])
         if str(next_element_for_track.text) != NO_DATA:
             document["track_data"] = transform_table_to_json(
                 document["cyclone_id"], next_element_for_track)

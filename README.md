@@ -1,4 +1,5 @@
 This repository fetches the active cyclones and stores in the database for analysis.
+Note : This services takes and retrieves UTC Timezone. Please follow this while giving epoch timestamps to the APIs
 
 ### Let's talk a bit about the technologies used.
 

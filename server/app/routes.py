@@ -33,4 +33,4 @@ def fetch_forecast_data_for_given_cylone_id(cyclone_id, forecast_time):
     predicted_time_list = [_temp.predicted_time for _temp in forecast_data]
     track_data = TrackData.query.filter(TrackData.cyclone_id.in_(
         [cyclone_id]), TrackData.synoptic_time.in_(predicted_time_list)).all()
-    return {"status": "success", "version": "1.0", "data": {"track_data": object_to_json(track_data), "forecast_data": object_to_json(track_data)}}
+    return {"status": "success", "version": "1.0", "data": {"track_data": object_to_json(track_data), "forecast_data": object_to_json(forecast_data)}}

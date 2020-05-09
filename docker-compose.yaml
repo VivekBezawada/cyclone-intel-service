@@ -2,6 +2,7 @@ version: "3.7"
 services:
   base_image :
     build : ./
+    image : cyclone-intel-service_base_image:latest
   db:
     image: postgres
     # In production systems, We should never put the below details

@@ -1,7 +1,6 @@
 from scraper import app, db
 from scraper.tasker import run_scheduler
 from scraper.models import CycloneInfo, TrackData, ForecastData
-from pprint import pprint
 from sqlalchemy.dialects.postgresql import insert
 
 
@@ -26,7 +25,6 @@ def run_background_schedule(timestamp=None):
                     lambda _temp: _temp["synoptic_time"] > float(timestamp), data["track_data"]))
                 data["forecast_data"] = list(filter(
                     lambda _temp: _temp["forecast_time"] > float(timestamp), data["forecast_data"]))
-            pprint(data["forecast_data"])
             for model_name, key_name in zip([CycloneInfo, TrackData, ForecastData], data.keys()):
                 if data[key_name]:
                     insrt_stmnt = insert(model_name).values(data[key_name])
